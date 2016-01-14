@@ -1,0 +1,4 @@
+{
+  "app-config": "./conf/app-config.json",
+  "streamUploader": "./videoStreamUploader.js"
+}
