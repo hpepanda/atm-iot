@@ -1,6 +1,11 @@
 {
-  "videoSource": "ws://192.168.100.27:8084/",
+  "videoSources": ["ws://192.168.100.50:8084/"],
+  "dataCollectionUri": "http://192.168.100.20:8086/analytics",
   "segmentSize": 10485760,
+  "segmentNumber": 3,
+  "reconnectTimeout": 1000,
+  "maxMsgDelay": 30000,
+  "atmClientId": "atm1",
   "authData": {
     "login": "10282162123634:alexander.shemyakin",
     "password": "Akvelon!!!",

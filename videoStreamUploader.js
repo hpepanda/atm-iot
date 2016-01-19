@@ -1,7 +1,6 @@
 "use strict";
 
 var request = require('request');
-var fs = require('fs');
 var use = require('use-import');
 var config = use('app-config');
 
@@ -70,17 +69,17 @@ exports.putSegment = function(segment, callback){
     });
 };
 
-exports.putManifest = function(streamName, callback){
+exports.putManifest = function(videoClip, callback){
     authorize(function(err, authData){
         if(!err){
-            var fileName = streamName.slice(0, -1) + '.mpg'
+            var fileName = videoClip.name.slice(0, -1) + '.mpg'
             var reqOptions = {
                 method: 'PUT',
                 url: authData.containerUri + fileName,
                 headers: {
                     'X-Auth-Token': authData.token,
                     'Content-Length': 0,
-                    'X-Object-Manifest': 'iot-video/'+streamName + 'seg-',
+                    'X-Object-Manifest': 'iot-video/'+videoClip.name + 'seg-',
                     'Content-Type': 'video/mpeg'
                 }
             };
@@ -88,7 +87,9 @@ exports.putManifest = function(streamName, callback){
             request(reqOptions, function (error, response) {
                 if (!error && response.statusCode == 201) {
                     console.log(fileName + ": manifest uploaded");
-                    console.log(response);
+                    videoClip.uri = response.request.href;
+                    callback(videoClip);
+
                 } else {
                     console.log(fileName + ": manifest upload failed");
                     if(error){
