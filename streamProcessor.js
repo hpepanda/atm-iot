@@ -27,7 +27,7 @@ StreamProcessor.prototype.start = function(){
 
 StreamProcessor.prototype.stop = function(){
     console.log("Stop processing");
-    this.ws.close();
+    uploadOnDisconnected.apply(this);
 };
 
 function reconnect(){
@@ -38,34 +38,36 @@ function reconnect(){
 
     console.log(util.format("Connection attempt. Url: %s. Timeout: %s.", this.address, this.timeout));
     this.timeout *= 2;
-}
+};
+
+function uploadOnDisconnected(){
+    var that = this;
+    that.ws = null;
+    var videoClipCopy = that.videoClip;
+    that.videoClip = null;
+
+    if(videoClipCopy && videoClipCopy.currentSegment.number > 0){
+        videoClipCopy.finishCapturing = new Date();
+        streamUploader.putManifest(videoClipCopy, function(videoClip){
+            dataCollectionNotifier.notify(videoClip);
+        });
+    }
+    clearInterval(that.msgIntervalHandle);
+};
 
 function connect(){
     var that = this;
 
     this.ws = new WebSocket(that.address);
 
-    var onDisconnected = function(msg, needReconnect){
-        console.log(msg);
-        that.ws = null;
-
-        if(that.videoClip && that.videoClip.currentSegment.number > 0){
-            that.videoClip.finishCapturing = new Date();
-            streamUploader.putManifest(that.videoClip, function(videoClip){
-                dataCollectionNotifier.notify(videoClip);
-            });
-        }
-        clearInterval(that.msgIntervalHandle);
-
-        needReconnect && reconnect.apply(that);
-    };
-
     var watchMsgInterval = function(){
         console.log("Watching message interval. Url: " + that.address);
 
         that.msgIntervalHandle = setInterval(function(){
             if(new Date() - that.lastMsgRecievedTime > config.maxMsgDelay){
-                onDisconnected("No message received in given time interval.", true);
+                console.log("No message received in given time interval.");
+                uploadOnDisconnected.apply(that);
+                reconnect.apply(that);
             }
             else{
                 console.log("Writing stream");
@@ -87,11 +89,15 @@ function connect(){
     });
 
     this.ws.on('close', function close() {
-        onDisconnected("Connection closed", false);
+        console.log("Connection closed");
+        uploadOnDisconnected.apply(that);
+        reconnect.apply(that);
     });
 
     this.ws.on('message', function(data, flags) {
         that.lastMsgRecievedTime = new Date();
+
+        if(!that.videoClip) return;
 
         if(that.videoClip.currentSegment.number == config.segmentNumber){
             that.videoClip.finishCapturing = new Date();
@@ -126,7 +132,9 @@ function connect(){
     });
 
     this.ws.on('error', function(err){
-        onDisconnected("Connection error: "+ err, true);
+        console.log("Connection error: "+ err);
+        uploadOnDisconnected.apply(that);
+        reconnect.apply(that);
     });
 };
 
