@@ -16,12 +16,21 @@ exports.notify = function(videoClip){
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            key: "sensorsVideoStream",
+            key: "sensors",
             value: {
                 clientId: config.atmClientId,
+                clientName: config.atmClientId,
                 streamUri: videoClip.uri,
-                startCapturing: videoClip.start,
-                finishCapturing: videoClip.finish
+                sensors: [{
+                    sensorType: "videoSensor",
+                    sensorId: "videoStreamSensor",
+                    raw:
+                        [{streamUri: videoClip.uri,
+                        startCapturing: videoClip.start,
+                        finishCapturing: videoClip.finish}]
+
+                }],
+                date: new Date()
             }
         })
     };
