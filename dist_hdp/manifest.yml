@@ -1,0 +1,6 @@
+applications:
+- name: grommet-iot 
+  mem: 128M
+  stackato:
+    ignores:
+    - node_modules

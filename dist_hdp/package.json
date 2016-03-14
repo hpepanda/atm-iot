@@ -1,0 +1,11 @@
+{
+  "name": "grommet-iot",
+  "version": "0.0.1",
+  "dependencies": {
+    "http-server": "^0.8.5"
+  },
+  "scripts": {
+    "prestart": "npm install",
+    "start": "http-server . -a 0.0.0.0 -d True -c-1"
+  }
+}
