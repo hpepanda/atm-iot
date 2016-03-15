@@ -6,26 +6,48 @@ var config = use('app-config');
 
 var authData = config.authData;
 
+var createAuthBody = function() {
+    return {
+            "auth": {
+                "identity": {
+                    "methods": ["password"],
+                    "password": {
+                        "user": {
+                            "id": authData.userId,
+                            "password": authData.password
+                        }
+                    }
+                },
+                "scope": {
+                    "project": {
+                        "id": authData.projectId
+                    }
+                }
+            }
+    };
+}
+
+
 var authorize = function (callback) {
     // Prevent token expiration
     var now = new Date();
     var now_utc = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), 0, 0);
 
     if (!authData.token || !authData.expires || authData.expires >= now_utc) {
+        var auth = createAuthBody();
+
         var reqestParams = {
-            method: 'GET',
+            method: 'POST',
             url: authData.authUri,
-            headers: {
-                'x-auth-user': authData.login,
-                'x-auth-key': authData.password
-            }
+            body: JSON.stringify(auth)
         };
 
         request(reqestParams, function (error, response, body) {
-            if (!error && response.statusCode == 200) {
+            if (!error && response.statusCode == 201) {
                 var authResponse = JSON.parse(body);
-                authData.token = authResponse.access.token.id;
-                authData.expires = Date.parse(authResponse.access.token.expires);
+
+                authData.token = response.headers['x-subject-token'];
+                authData.expires = Date.parse(authResponse.token.expires_at);
                 callback(null, authData);
             } else {
                 callback("Could not acquire an access token.");

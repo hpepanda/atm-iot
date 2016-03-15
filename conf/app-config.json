@@ -1,15 +1,14 @@
 {
-  "videoSources": ["ws://192.168.100.50:8084/"],
-  "dataCollectionUri": "http://192.168.100.20:8086/analytics",
-  "segmentSize": 10485760,
-  "segmentNumber": 3,
+  "videoSources": ["ws://192.168.100.41:8084/"],
+  "segmentSize": 1048570,
+  "segmentNumber": 2,
   "reconnectTimeout": 1000,
   "maxMsgDelay": 30000,
-  "atmClientId": "atm1",
   "authData": {
-    "login": "10282162123634:alexander.shemyakin",
-    "password": "Akvelon!!!",
-    "authUri": "https://region-a.geo-1.identity.hpcloudsvc.com:35357/auth/v1.0/",
-    "containerUri": "https://region-b.geo-1.objects.hpcloudsvc.com/v1/10282162123634/iot-video/"
+    "userId": "17cdbbbd3cbf4dfa886bfde009a6e8e6",
+    "projectId": "f602026de08e42248648a72836bd16b0",
+    "password": "root",
+    "authUri":      "http://192.168.100.46:5000/v3/auth/tokens",
+    "containerUri": "http://192.168.100.46:8080/v1/AUTH_f602026de08e42248648a72836bd16b0/iot-video/"
   }
 }

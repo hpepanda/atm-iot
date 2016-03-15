@@ -1,6 +1,5 @@
 {
   "app-config": "./conf/app-config.json",
   "streamUploader": "./videoStreamUploader.js",
-  "streamProcessor": "./streamProcessor.js",
-  "dataCollectionNotifier": "./dataCollectionNotifier.js"
+  "streamProcessor": "./streamProcessor.js"
 }
