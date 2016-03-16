@@ -4,6 +4,7 @@
 var use = require('use-import').load();
 var config = use('app-config');
 var StreamProcessor = use('streamProcessor');
+var StreamBroadcast = use('streamBroadcast');
 
 var streamProcessors = [];
 
@@ -22,15 +23,25 @@ function stopProcessing(callback){
     callback();
 };
 
+function startNotification(){
+    StreamBroadcast.reconnect();
+}
+
+function stopNotification() {
+    StreamBroadcast.disconnectAll();
+}
+
 processVideo();
+startNotification();
 
 process.on ('SIGINT', function(){
     console.log("Shutdown");
+    stopNotification();
     stopProcessing(function(){
         setTimeout(function(){
             process.exit(0);}, 50000);
-
     });
+
 });
 
 

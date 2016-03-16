@@ -3,6 +3,7 @@ var WebSocket = require('ws');
 var config = use('app-config');
 var streamUploader = use('streamUploader');
 var util = require('util');
+var StreamBroadcast = use('streamBroadcast');
 
 function StreamProcessor (address){
     this.videoClip = null;
@@ -48,9 +49,6 @@ function uploadOnDisconnected(){
     if(videoClipCopy && videoClipCopy.currentSegment.number > 0){
         videoClipCopy.finishCapturing = new Date();
         streamUploader.putManifest(videoClipCopy, function(videoClip){
-            //
-            // TODO - notify binary server
-            //
         });
     }
     clearInterval(that.msgIntervalHandle);
@@ -130,6 +128,10 @@ function connect(){
                 that.videoClip.currentSegment.data[that.bufferOffset++] = data[i];
             }
         }
+
+        StreamBroadcast.notify(
+            {id: config.id, data: message}
+        );
     });
 
     this.ws.on('error', function(err){

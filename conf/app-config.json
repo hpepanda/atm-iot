@@ -1,13 +1,15 @@
 {
-  "videoSources": ["ws://192.168.100.41:8084/"],
+  "sourceID": 1,
+  "videoSources":   ["ws://192.168.100.41:8084/"],
+  "videoBroadcast": ["ws://192.168.100.39:8084/"],
   "segmentSize": 1048570,
   "segmentNumber": 2,
   "reconnectTimeout": 1000,
   "maxMsgDelay": 30000,
   "authData": {
-    "userId": "17cdbbbd3cbf4dfa886bfde009a6e8e6",
+    "userId":    "17cdbbbd3cbf4dfa886bfde009a6e8e6",
     "projectId": "f602026de08e42248648a72836bd16b0",
-    "password": "root",
+    "password":  "root",
     "authUri":      "http://192.168.100.46:5000/v3/auth/tokens",
     "containerUri": "http://192.168.100.46:8080/v1/AUTH_f602026de08e42248648a72836bd16b0/iot-video/"
   }
