@@ -32,7 +32,9 @@ function stopNotification() {
 }
 
 processVideo();
-startNotification();
+if (config.elements.broadcast) {
+    startNotification();
+}
 
 process.on ('SIGINT', function(){
     console.log("Shutdown");

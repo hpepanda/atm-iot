@@ -7,10 +7,15 @@
   "reconnectTimeout": 1000,
   "maxMsgDelay": 30000,
   "authData": {
-    "userId":    "17cdbbbd3cbf4dfa886bfde009a6e8e6",
-    "projectId": "f602026de08e42248648a72836bd16b0",
+    "userId":    "a1055e32622a41e19db4856f1a01b461",
+    "projectId": "3243159e64ff40b9a72c7faba1a51608",
     "password":  "root",
     "authUri":      "http://192.168.100.46:5000/v3/auth/tokens",
-    "containerUri": "http://192.168.100.46:8080/v1/AUTH_f602026de08e42248648a72836bd16b0/iot-video/"
+    "containerUri": "http://192.168.100.46:8080/v1/AUTH_3243159e64ff40b9a72c7faba1a51608/video/",
+    "containerName": "video"
+  },
+  "elements": {
+    "saveToObjectStorage": false,
+    "broadcast": true
   }
 }

@@ -101,7 +101,7 @@ exports.putManifest = function(videoClip, callback){
                 headers: {
                     'X-Auth-Token': authData.token,
                     'Content-Length': 0,
-                    'X-Object-Manifest': 'iot-video/'+videoClip.name + 'seg-',
+                    'X-Object-Manifest': config.authData.containerName + '/'+videoClip.name + 'seg-',
                     'Content-Type': 'video/mpeg'
                 }
             };
@@ -116,7 +116,8 @@ exports.putManifest = function(videoClip, callback){
                     console.log(fileName + ": manifest upload failed");
                     if(error){
                         console.log(error);
-                    }else{
+                    }
+                    else{
                         console.log(response);
                     }
                 }

@@ -4,6 +4,7 @@ var config = use('app-config');
 var streamUploader = use('streamUploader');
 var util = require('util');
 var StreamBroadcast = use('streamBroadcast');
+var header = null;
 
 function StreamProcessor (address){
     this.videoClip = null;
@@ -48,8 +49,10 @@ function uploadOnDisconnected(){
 
     if(videoClipCopy && videoClipCopy.currentSegment.number > 0){
         videoClipCopy.finishCapturing = new Date();
-        streamUploader.putManifest(videoClipCopy, function(videoClip){
-        });
+        if (config.elements.saveToObjectStorage) {
+            streamUploader.putManifest(videoClipCopy, function (videoClip) {
+            });
+        }
     }
     clearInterval(that.msgIntervalHandle);
 };
@@ -94,30 +97,38 @@ function connect(){
     });
 
     this.ws.on('message', function(data, flags) {
+        if (!header)
+            header = data;
+
         that.lastMsgRecievedTime = new Date();
 
         if(!that.videoClip) return;
 
         if(that.videoClip.currentSegment.number == config.segmentNumber){
             that.videoClip.finishCapturing = new Date();
-            streamUploader.putManifest({
-                name: that.videoClip.name,
-                start: that.videoClip.startCapturing,
-                finish: that.videoClip.finishCapturing
-            }, function(videoClip){
-                // dataCollectionNotifier.notify(videoClip);
-            });
+            if (config.elements.saveToObjectStorage) {
+                streamUploader.putManifest({
+                    name: that.videoClip.name,
+                    start: that.videoClip.startCapturing,
+                    finish: that.videoClip.finishCapturing
+                }, function (videoClip) {
+                    // dataCollectionNotifier.notify(videoClip);
+                });
+            }
             that.videoClip = new VideoClip();
         }
 
         if(that.bufferOffset >= config.segmentSize){
-            console.log("Put segment");
             var completedSegment = {
                 number: that.videoClip.currentSegment.number,
                 name: that.videoClip.name,
                 data: new Buffer(that.videoClip.currentSegment.data)
             };
-            streamUploader.putSegment(completedSegment);
+
+            if (config.elements.saveToObjectStorage) {
+                console.log("Put segment");
+                streamUploader.putSegment(completedSegment);
+            }
 
             that.videoClip.currentSegment.number++;
             that.videoClip.currentSegment.data.fill(0);
@@ -129,8 +140,11 @@ function connect(){
             }
         }
 
-        StreamBroadcast.notify(
-            {id: config.id, data: message}
+        StreamBroadcast.notify(JSON.stringify({
+                id: config.sourceID,
+                data: data,
+                streamHeader: header
+            })
         );
     });
 
