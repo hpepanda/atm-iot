@@ -4,23 +4,21 @@ var request = require('request');
 var use = require('use-import');
 var config = use('app-config');
 
-var authData = config.authData;
-
-var createAuthBody = function() {
+var createAuthBody = function(userId, password, projectId) {
     return {
             "auth": {
                 "identity": {
                     "methods": ["password"],
                     "password": {
                         "user": {
-                            "id": authData.userId,
-                            "password": authData.password
+                            "id": userId,
+                            "password": password
                         }
                     }
                 },
                 "scope": {
                     "project": {
-                        "id": authData.projectId
+                        "id": projectId
                     }
                 }
             }
@@ -28,34 +26,41 @@ var createAuthBody = function() {
 }
 
 
+var authData = {};
 var authorize = function (callback) {
-    // Prevent token expiration
-    var now = new Date();
-    var now_utc = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), 0, 0);
+    config().then(function(cfg) {
 
-    if (!authData.token || !authData.expires || authData.expires >= now_utc) {
-        var auth = createAuthBody();
+        // Prevent token expiration
+        var now = new Date();
+        var now_utc = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), 0, 0);
 
-        var reqestParams = {
-            method: 'POST',
-            url: authData.authUri,
-            body: JSON.stringify(auth)
-        };
+        if (!authData.token || !authData.expires || authData.expires >= now_utc) {
+            var auth = createAuthBody(cfg.authData.userId, cfg.authData.password, cfg.authData.projectId);
 
-        request(reqestParams, function (error, response, body) {
-            if (!error && response.statusCode == 201) {
-                var authResponse = JSON.parse(body);
+            var reqestParams = {
+                method: 'POST',
+                url: authData.authUri,
+                body: JSON.stringify(auth)
+            };
 
-                authData.token = response.headers['x-subject-token'];
-                authData.expires = Date.parse(authResponse.token.expires_at);
-                callback(null, authData);
-            } else {
-                callback("Could not acquire an access token.");
-            }
-        });
-    } else {
-        callback(null, authData);
-    }
+            request(reqestParams, function (error, response, body) {
+                if (!error && response.statusCode == 201) {
+                    var authResponse = JSON.parse(body);
+
+                    authData.token = response.headers['x-subject-token'];
+                    authData.expires = Date.parse(authResponse.token.expires_at);
+                    callback(null, authData);
+                } else {
+                    callback("Could not acquire an access token.");
+                }
+            });
+        } else {
+            callback(null, authData);
+        }
+    });
+
+
+
 };
 
 exports.putSegment = function(segment, callback){
@@ -101,7 +106,7 @@ exports.putManifest = function(videoClip, callback){
                 headers: {
                     'X-Auth-Token': authData.token,
                     'Content-Length': 0,
-                    'X-Object-Manifest': config.authData.containerName + '/'+videoClip.name + 'seg-',
+                    'X-Object-Manifest': authData.containerName + '/' + videoClip.name + 'seg-',
                     'Content-Type': 'video/mpeg'
                 }
             };
@@ -111,7 +116,6 @@ exports.putManifest = function(videoClip, callback){
                     console.log(fileName + ": manifest uploaded");
                     videoClip.uri = response.request.href;
                     callback(videoClip);
-
                 } else {
                     console.log(fileName + ": manifest upload failed");
                     if(error){

@@ -63,8 +63,10 @@ StreamBroadcast.prototype.reconnect = function(){
         this.disconnectAll();
     }
 
-    config.videoBroadcast.forEach(function(item){
-        connect(self, item)
+    config().then(function(cfg) {
+        cfg.shared.videoBroadcast.forEach(function(item){
+            connect(self, item)
+        });
     });
 }
 

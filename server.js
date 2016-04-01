@@ -9,10 +9,13 @@ var StreamBroadcast = use('streamBroadcast');
 var streamProcessors = [];
 
 function processVideo(){
-    config.videoSources.forEach(function(url){
-        var streamProcessor = new StreamProcessor(url);
-        streamProcessor.start();
-        streamProcessors.push(streamProcessor);
+    config().then(function(cfg) {
+        cfg.shared.videoSources.forEach(function (url) {
+                var streamProcessor = new StreamProcessor(url);
+                streamProcessor.start();
+                streamProcessors.push(streamProcessor);
+            }
+        );
     });
 };
 
@@ -31,11 +34,6 @@ function stopNotification() {
     StreamBroadcast.disconnectAll();
 }
 
-processVideo();
-if (config.elements.broadcast) {
-    startNotification();
-}
-
 process.on ('SIGINT', function(){
     console.log("Shutdown");
     stopNotification();
@@ -46,4 +44,10 @@ process.on ('SIGINT', function(){
 
 });
 
+processVideo();
+config().then(function(cfg) {
+    if (cfg.shared.elements.broadcast) {
+        startNotification();
+    }
+});
 

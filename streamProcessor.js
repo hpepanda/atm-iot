@@ -1,6 +1,7 @@
 var use = require('use-import').load();
 var WebSocket = require('ws');
 var config = use('app-config');
+var localConfig = use('local-config');
 var streamUploader = use('streamUploader');
 var util = require('util');
 var StreamBroadcast = use('streamBroadcast');
@@ -12,7 +13,7 @@ function StreamProcessor (address){
     this.ws = null;
 
     this.reconnectTimeoutHandle = null;
-    this.timeout = config.reconnectTimeout;
+    this.timeout = localConfig.reconnectTimeout;
 
     this.msgIntervalHandle = null;
     this.lastMsgRecievedTime = null;
@@ -49,10 +50,12 @@ function uploadOnDisconnected(){
 
     if(videoClipCopy && videoClipCopy.currentSegment.number > 0){
         videoClipCopy.finishCapturing = new Date();
-        if (config.elements.saveToObjectStorage) {
-            streamUploader.putManifest(videoClipCopy, function (videoClip) {
-            });
-        }
+        config().then(function(cfg) {
+            if (cfg.shared.saveToObjectStorage) {
+                streamUploader.putManifest(videoClipCopy, function (videoClip) {
+                });
+            }
+        });
     }
     clearInterval(that.msgIntervalHandle);
 };
@@ -66,7 +69,7 @@ function connect(){
         console.log("Watching message interval. Url: " + that.address);
 
         that.msgIntervalHandle = setInterval(function(){
-            if(new Date() - that.lastMsgRecievedTime > config.maxMsgDelay){
+            if(new Date() - that.lastMsgRecievedTime > localConfig.maxMsgDelay){
                 console.log("No message received in given time interval.");
                 uploadOnDisconnected.apply(that);
                 reconnect.apply(that);
@@ -74,7 +77,7 @@ function connect(){
             else{
                 console.log("Writing stream");
             }
-        }, config.maxMsgDelay);
+        }, localConfig.maxMsgDelay);
     };
 
     this.ws.on('open', function(){
@@ -82,7 +85,7 @@ function connect(){
         watchMsgInterval(that);
 
         clearTimeout(this.reconnectTimeoutHandle);
-        that.timeout = config.reconnectTimeout;
+        that.timeout = localConfig.reconnectTimeout;
 
         if(!that.videoClip){
             that.videoClip = new VideoClip();
@@ -104,31 +107,38 @@ function connect(){
 
         if(!that.videoClip) return;
 
-        if(that.videoClip.currentSegment.number == config.segmentNumber){
+        if(that.videoClip.currentSegment.number == localConfig.segmentNumber){
             that.videoClip.finishCapturing = new Date();
-            if (config.elements.saveToObjectStorage) {
-                streamUploader.putManifest({
-                    name: that.videoClip.name,
-                    start: that.videoClip.startCapturing,
-                    finish: that.videoClip.finishCapturing
-                }, function (videoClip) {
-                    // dataCollectionNotifier.notify(videoClip);
-                });
-            }
+
+            var videoClip = that.videoClip; // capture for closure
+            config().then(function(cfg) {
+                if (cfg.shared.saveToObjectStorage) {
+                    streamUploader.putManifest({
+                        name: videoClip.name,
+                        start: videoClip.startCapturing,
+                        finish: videoClip.finishCapturing
+                    }, function (videoClip) {
+                        // dataCollectionNotifier.notify(videoClip);
+                    });
+                }
+            });
+
             that.videoClip = new VideoClip();
         }
 
-        if(that.bufferOffset >= config.segmentSize){
+        if(that.bufferOffset >= localConfig.segmentSize){
             var completedSegment = {
                 number: that.videoClip.currentSegment.number,
                 name: that.videoClip.name,
                 data: new Buffer(that.videoClip.currentSegment.data)
             };
 
-            if (config.elements.saveToObjectStorage) {
-                console.log("Put segment");
-                streamUploader.putSegment(completedSegment);
-            }
+            config().then(function(cfg) {
+                if (cfg.shared.elements.saveToObjectStorage) {
+                    console.log("Put segment");
+                    streamUploader.putSegment(completedSegment);
+                }
+            });
 
             that.videoClip.currentSegment.number++;
             that.videoClip.currentSegment.data.fill(0);
@@ -141,7 +151,7 @@ function connect(){
         }
 
         StreamBroadcast.notify(JSON.stringify({
-                id: config.sourceID,
+                id: localConfig.sourceID,
                 data: data,
                 streamHeader: header
             })
@@ -159,7 +169,7 @@ module.exports = StreamProcessor;
 
 function Segment(){
     this.number = 0;
-    this.data = new Buffer(config.segmentSize);
+    this.data = new Buffer(localConfig.segmentSize);
     this.data.fill(0);
 };
 

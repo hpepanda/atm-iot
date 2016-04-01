@@ -1,6 +1,7 @@
 {
-  "app-config": "./conf/app-config.json",
+  "app-config": "./conf/config.js",
   "streamUploader": "./videoStreamUploader.js",
   "streamProcessor": "./streamProcessor.js",
-  "streamBroadcast": "./streamBroadcast.js"
+  "streamBroadcast": "./streamBroadcast.js",
+  "local-config": "./conf/localConfig.json"
 }

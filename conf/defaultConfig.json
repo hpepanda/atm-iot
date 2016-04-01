@@ -1,0 +1,22 @@
+{
+  "shared": {
+    "videoSources": [
+      "ws://192.168.100.41:8084/"
+    ],
+    "videoBroadcast": [
+      "ws://192.168.100.39:8084/"
+    ],
+    "authData": {
+      "userId": "a1055e32622a41e19db4856f1a01b461",
+      "projectId": "3243159e64ff40b9a72c7faba1a51608",
+      "password": "root",
+      "authUri": "http://192.168.100.46:5000/v3/auth/tokens",
+      "containerUri": "http://192.168.100.46:8080/v1/AUTH_3243159e64ff40b9a72c7faba1a51608/video/",
+      "containerName": "video"
+    },
+    "elements": {
+      "saveToObjectStorage": false,
+      "broadcast": true
+    }
+  }
+}

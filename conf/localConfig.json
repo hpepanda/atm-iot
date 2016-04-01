@@ -1,0 +1,9 @@
+{
+  "mode": "production",
+  "sourceID": "board1",
+  "configServerPath": "http://192.168.100.194:8084/api/cfg/",
+  "segmentSize": 1048570,
+  "segmentNumber": 2,
+  "reconnectTimeout": 3000,
+  "maxMsgDelay": 30000
+}
