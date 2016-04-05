@@ -1,0 +1,12 @@
+{
+	"dir": "D:\\Node\\Server\\Archive",
+	"interval":5000,
+	"serverIP": "192.168.100.20",
+	"serverPort": 8086,
+	"path": "analytics",
+	"sensorType": "photoSensor",
+	"key": "sensors",
+	"clientId":"atm1", 
+	"location": "London",
+	"useStub":0
+}
