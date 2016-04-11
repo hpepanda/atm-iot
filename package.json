@@ -1,0 +1,19 @@
+{
+  "name": "imageCleaner",
+  "version": "1.0.0",
+  "description": "Image Cleaner for IoT",
+  "private": true,
+  "dependencies": {
+    "dateformat": "^1.0.12",
+    "request": "^2.70.0"
+  },
+  "scripts": {
+    "prestart": "npm install",
+    "test": "echo \"Error: no test specified\"",
+    "start": "node server.js"
+  },
+  "author": "Serge Levin",
+  "engines": {
+    "node": "0.12.x"
+  }
+}
