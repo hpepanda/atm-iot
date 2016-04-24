@@ -27,6 +27,6 @@ var getConfiguration = function(){
 };
 
 module.exports = function(){
-    var mode = process.env.NODE_ENV || localConfig.mode || 'development';
+    var mode = localConfig.mode || process.env.NODE_ENV || 'development';
     return mode == 'development' ? Promise.resolve(defaultCfg) : getConfiguration();
 };
