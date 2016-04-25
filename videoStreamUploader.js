@@ -29,7 +29,7 @@ var createAuthBody = function(userId, password, projectId) {
 var authData = {};
 var authorize = function (callback) {
     config().then(function(cfg) {
-
+        authData.cfg = cfg;
         // Prevent token expiration
         var now = new Date();
         var now_utc = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), 0, 0);
@@ -39,7 +39,7 @@ var authorize = function (callback) {
 
             var reqestParams = {
                 method: 'POST',
-                url: authData.authUri,
+                url: cfg.shared.authData.authUri,
                 body: JSON.stringify(auth)
             };
 
@@ -69,7 +69,7 @@ exports.putSegment = function(segment, callback){
             var segmentName =  segment.name+'seg-' + segment.number;
             var reqOptions = {
                 method: 'PUT',
-                url: authData.containerUri + segmentName,
+                url: authData.cfg.shared.authData.containerUri + segmentName,
                 headers: {
                     'X-Auth-Token': authData.token
                 },
@@ -102,11 +102,11 @@ exports.putManifest = function(videoClip, callback){
             var fileName = videoClip.name.slice(0, -1) + '.mpg'
             var reqOptions = {
                 method: 'PUT',
-                url: authData.containerUri + fileName,
+                url: authData.cfg.shared.containerUri + fileName,
                 headers: {
                     'X-Auth-Token': authData.token,
                     'Content-Length': 0,
-                    'X-Object-Manifest': authData.containerName + '/' + videoClip.name + 'seg-',
+                    'X-Object-Manifest': authData.cfg.authData.shared.containerName + '/' + videoClip.name + 'seg-',
                     'Content-Type': 'video/mpeg'
                 }
             };

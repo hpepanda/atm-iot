@@ -1,7 +1,7 @@
 {
   "shared": {
     "videoSources": [
-      "ws://10.21.5.16:8088/"
+      "ws://10.21.5.25:8088/"
     ],
     "videoBroadcast": [
       "ws://192.168.100.39:8084/"
@@ -11,7 +11,7 @@
       "projectId": "f2ec3a32ce984cc184bd7d342665b0f9",
       "password": "gYuhZ20wjOp8",
       "authUri": "http://192.168.2.104:5000/v3/auth/tokens",
-      "containerUri": "http://192.168.2.104:8080/v1/AUTH_f2ec3a32ce984cc184bd7d342665b0f9/public-video",
+      "containerUri": "http://192.168.2.104:8080/v1/AUTH_f2ec3a32ce984cc184bd7d342665b0f9/public-video/",
       "containerName": "public-video"
     },
     "elements": {
