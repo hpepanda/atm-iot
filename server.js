@@ -45,9 +45,9 @@ process.on ('SIGINT', function(){
 });
 
 processVideo();
-config().then(function(cfg) {
-    if (cfg.shared.elements.broadcast) {
-        startNotification();
-    }
-});
+//config().then(function(cfg) {
+//    if (cfg.shared.elements.broadcast) {
+//        startNotification();
+//    }
+//});
 

@@ -35,7 +35,7 @@ var authorize = function (callback) {
         var now_utc = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), 0, 0);
 
         if (!authData.token || !authData.expires || authData.expires >= now_utc) {
-            var auth = createAuthBody(cfg.authData.userId, cfg.authData.password, cfg.authData.projectId);
+            var auth = createAuthBody(cfg.shared.authData.userId, cfg.shared.authData.password, cfg.shared.authData.projectId);
 
             var reqestParams = {
                 method: 'POST',
