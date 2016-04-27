@@ -29,33 +29,32 @@ var createAuthBody = function(userId, password, projectId) {
 var authData = {};
 var authorize = function (callback) {
     config().then(function(cfg) {
-        authData.cfg = cfg;
         // Prevent token expiration
         var now = new Date();
         var now_utc = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), 0, 0);
-
+        var osAuthCfg = cfg.shared.authData;
         if (!authData.token || !authData.expires || authData.expires >= now_utc) {
-            var auth = createAuthBody(cfg.shared.authData.userId, cfg.shared.authData.password, cfg.shared.authData.projectId);
+            var auth = createAuthBody(osAuthCfg.userId, osAuthCfg.password, osAuthCfg.projectId);
 
-            var reqestParams = {
+            var requestParams = {
                 method: 'POST',
-                url: cfg.shared.authData.authUri,
+                url: osAuthCfg.authUri,
                 body: JSON.stringify(auth)
             };
 
-            request(reqestParams, function (error, response, body) {
+            request(requestParams, function (error, response, body) {
                 if (!error && response.statusCode == 201) {
                     var authResponse = JSON.parse(body);
 
                     authData.token = response.headers['x-subject-token'];
                     authData.expires = Date.parse(authResponse.token.expires_at);
-                    callback(null, authData);
+                    callback(null, {auth: authData, osAuthCfg: osAuthCfg});
                 } else {
                     callback("Could not acquire an access token.");
                 }
             });
         } else {
-            callback(null, authData);
+            callback(null, {auth: authData, osAuthCfg: osAuthCfg});
         }
     });
 
@@ -64,14 +63,14 @@ var authorize = function (callback) {
 };
 
 exports.putSegment = function(segment, callback){
-    authorize(function(err, authData){
+    authorize(function(err, data){
         if(!err){
             var segmentName =  segment.name+'seg-' + segment.number;
             var reqOptions = {
                 method: 'PUT',
-                url: authData.cfg.shared.authData.containerUri + segmentName,
+                url: data.osAuthCfg.containerUri + segmentName,
                 headers: {
-                    'X-Auth-Token': authData.token
+                    'X-Auth-Token': data.auth.token
                 },
                 body: segment.data
             };
@@ -97,16 +96,16 @@ exports.putSegment = function(segment, callback){
 };
 
 exports.putManifest = function(videoClip, callback){
-    authorize(function(err, authData){
+    authorize(function(err, data){
         if(!err){
             var fileName = videoClip.name.slice(0, -1) + '.mpg'
             var reqOptions = {
                 method: 'PUT',
-                url: authData.cfg.shared.containerUri + fileName,
+                url: data.osAuthCfg.containerUri + fileName,
                 headers: {
-                    'X-Auth-Token': authData.token,
+                    'X-Auth-Token': data.auth.token,
                     'Content-Length': 0,
-                    'X-Object-Manifest': authData.cfg.authData.shared.containerName + '/' + videoClip.name + 'seg-',
+                    'X-Object-Manifest': data.osAuthCfg.containerName + '/' + videoClip.name + 'seg-',
                     'Content-Type': 'video/mpeg'
                 }
             };
@@ -115,6 +114,7 @@ exports.putManifest = function(videoClip, callback){
                 if (!error && response.statusCode == 201) {
                     console.log(fileName + ": manifest uploaded");
                     videoClip.uri = response.request.href;
+                    console.log(response.request.href);
                     callback(videoClip);
                 } else {
                     console.log(fileName + ": manifest upload failed");

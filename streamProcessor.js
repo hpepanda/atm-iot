@@ -7,10 +7,11 @@ var util = require('util');
 var StreamBroadcast = use('streamBroadcast');
 var header = null;
 
-function StreamProcessor (address){
+function StreamProcessor (address, cfg){
     this.videoClip = null;
     this.bufferOffset = null;
     this.ws = null;
+    this.cfg = cfg;
 
     this.reconnectTimeoutHandle = null;
     this.timeout = localConfig.reconnectTimeout;
@@ -50,12 +51,12 @@ function uploadOnDisconnected(){
 
     if(videoClipCopy && videoClipCopy.currentSegment.number > 0){
         videoClipCopy.finishCapturing = new Date();
-        config().then(function(cfg) {
-            if (cfg.shared.saveToObjectStorage) {
-                streamUploader.putManifest(videoClipCopy, function (videoClip) {
-                });
-            }
-        });
+
+        if (that.cfg.saveToObjectStorage) {
+            streamUploader.putManifest(videoClipCopy, function (videoClip) {
+            });
+        }
+
     }
     clearInterval(that.msgIntervalHandle);
 };
@@ -111,17 +112,17 @@ function connect(){
             that.videoClip.finishCapturing = new Date();
 
             var videoClip = that.videoClip; // capture for closure
-            config().then(function(cfg) {
-                if (cfg.shared.saveToObjectStorage) {
-                    streamUploader.putManifest({
-                        name: videoClip.name,
-                        start: videoClip.startCapturing,
-                        finish: videoClip.finishCapturing
-                    }, function (videoClip) {
-                        // dataCollectionNotifier.notify(videoClip);
-                    });
-                }
-            });
+
+            if (that.cfg.elements.saveToObjectStorage) {
+                streamUploader.putManifest({
+                    name: videoClip.name,
+                    start: videoClip.startCapturing,
+                    finish: videoClip.finishCapturing
+                }, function (videoClip) {
+                    // dataCollectionNotifier.notify(videoClip);
+                });
+            }
+
 
             that.videoClip = new VideoClip();
         }
@@ -133,12 +134,11 @@ function connect(){
                 data: new Buffer(that.videoClip.currentSegment.data)
             };
 
-            config().then(function(cfg) {
-                if (cfg.shared.elements.saveToObjectStorage) {
-                    console.log("Put segment");
-                    streamUploader.putSegment(completedSegment);
-                }
-            });
+
+            if (that.cfg.elements.saveToObjectStorage) {
+                console.log("Put segment");
+                streamUploader.putSegment(completedSegment);
+            }
 
             that.videoClip.currentSegment.number++;
             that.videoClip.currentSegment.data.fill(0);
@@ -150,12 +150,12 @@ function connect(){
             }
         }
 
-        StreamBroadcast.notify(JSON.stringify({
-                id: localConfig.sourceID,
-                data: data,
-                streamHeader: header
-            })
-        );
+        //StreamBroadcast.notify(JSON.stringify({
+        //        id: localConfig.sourceID,
+        //        data: data,
+        //        streamHeader: header
+        //    })
+        //);
     });
 
     this.ws.on('error', function(err){

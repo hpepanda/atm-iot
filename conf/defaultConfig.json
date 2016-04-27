@@ -1,18 +1,18 @@
 {
   "shared": {
     "videoSources": [
-      "ws://10.21.5.25:8088/"
+      "ws://10.21.1.241:8084/"
     ],
     "videoBroadcast": [
       "ws://192.168.100.39:8084/"
     ],
     "authData": {
-      "userId": "8ea9e6bac80647f69d613c84b9d35a2e",
-      "projectId": "f2ec3a32ce984cc184bd7d342665b0f9",
-      "password": "gYuhZ20wjOp8",
-      "authUri": "http://192.168.2.104:5000/v3/auth/tokens",
-      "containerUri": "http://192.168.2.104:8080/v1/AUTH_f2ec3a32ce984cc184bd7d342665b0f9/public-video/",
-      "containerName": "public-video"
+      "userId": "e8be5f86bbbd4db4b4bb59fe09f692e8",
+      "projectId": "dbd9414131654a7bb31476dd6f2790b9",
+      "password": "IYyFa1hu",
+      "authUri": "http://192.168.2.84:5000/v3/auth/tokens",
+      "containerUri": "http://192.168.2.84:8080/v1/AUTH_dbd9414131654a7bb31476dd6f2790b9/urbe-video/",
+      "containerName": "urbe-video"
     },
     "elements": {
       "saveToObjectStorage": true,

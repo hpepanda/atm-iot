@@ -11,7 +11,7 @@ var streamProcessors = [];
 function processVideo(){
     config().then(function(cfg) {
         cfg.shared.videoSources.forEach(function (url) {
-                var streamProcessor = new StreamProcessor(url);
+                var streamProcessor = new StreamProcessor(url, cfg.shared);
                 streamProcessor.start();
                 streamProcessors.push(streamProcessor);
             }
