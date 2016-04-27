@@ -4,8 +4,6 @@ var config = use('app-config');
 var localConfig = use('local-config');
 var streamUploader = use('streamUploader');
 var util = require('util');
-var StreamBroadcast = use('streamBroadcast');
-var header = null;
 
 function StreamProcessor (address, cfg){
     this.videoClip = null;
@@ -101,9 +99,6 @@ function connect(){
     });
 
     this.ws.on('message', function(data, flags) {
-        if (!header)
-            header = data;
-
         that.lastMsgRecievedTime = new Date();
 
         if(!that.videoClip) return;

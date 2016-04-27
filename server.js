@@ -39,7 +39,7 @@ process.on ('SIGINT', function(){
     stopNotification();
     stopProcessing(function(){
         setTimeout(function(){
-            process.exit(0);}, 50000);
+            process.exit(0);}, 5000);
     });
 
 });
