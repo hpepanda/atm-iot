@@ -16,7 +16,7 @@ import history from './RouteHistory';
 
 // The port number needs to align with devServerProxy and websocketHost in gulpfile.js
 //let hostName = 'localhost:8041';
-let hostName = '192.168.100.21:8041';
+let hostName = '192.168.100.20:8041';
 
 RestWatch.initialize('ws://' + hostName + '/rest/ws');
 
