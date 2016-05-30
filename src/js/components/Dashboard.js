@@ -125,7 +125,7 @@ class Dashboard extends Component {
         <IndexHistory type="area" attribute="alert"
                       series={alert.result.criticalAlerts} smooth={true} size={graphicSize}/>
       );
-    } else if(alert && alert.result && alert.result.length > 0) {
+    } else if (alert && alert.result && alert.result.length > 0) {
       contents = (
         <IndexHistory type="area" attribute="alert"
                       series={alert.result} smooth={true} size={graphicSize}/>
