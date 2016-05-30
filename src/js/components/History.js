@@ -111,11 +111,11 @@ class History extends Component {
     dispatch(dashboardLayout(graphicSize));
   }
 
-  _renderCriticalAlerts(alerts) {
+  _renderCriticalAlerts(title, alerts) {
     if (alerts) {
       return (
       <Tile wide={true}>
-        <h2>Critical alerts</h2>
+        <h2>{title}</h2>
         <IndexHistory type="area" attribute="alert"
             series={alerts} smooth={true} size="small"/>
       </Tile>
@@ -294,8 +294,8 @@ class History extends Component {
       );
 
       var contentTiles = [];
-      contentTiles.push(this._renderCriticalAlerts(history.result.criticalAlerts));
-      contentTiles.push(this._renderCriticalAlerts(history.result.warningAlerts));
+      contentTiles.push(this._renderCriticalAlerts("Critical Alerts", history.result.criticalAlerts));
+      contentTiles.push(this._renderCriticalAlerts("Warning Alerts", history.result.warningAlerts));
 
       let timeControl = this._renderTimeControl(date, history.result.skip, history.result.max);
       let rangeSelector = this._renderRangeSelector(history.result.atmList, history.result.date,  history.result.atmId);
