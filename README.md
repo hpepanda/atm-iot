@@ -4,12 +4,12 @@ IoT this is a hardware and software system that consists of Raspberry Pi with a 
 *Photo*
 
 The software needed for building of Iot server can be found in this repository. All types of servers distributed through the different branches, so, for installing a specific server in generally you need to:
-1. Clone the current repository to your server instance:
++ Clone the current repository to your server instance:
 
     ```
     git clone https://github.com/hpepanda/atm-iot.git && cd atm-iot
     ```
-2. Switch the branch from master to the other branch depending what server you need:
++ Switch the branch from master to the other branch depending what server you need:
 
     ```
     git checkout <server_name>
@@ -17,8 +17,13 @@ The software needed for building of Iot server can be found in this repository. 
 
 ## Components:
 User Interface - 
+
 Image Cleaner Server - 
+
 Data Processing Server - 
+
 sonic-densors
+
 Image Processing Server - 
+
 Video Stream Server - 
