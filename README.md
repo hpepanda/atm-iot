@@ -1,7 +1,6 @@
 # ATM IoT UI
-The IoT UI is the part of the IoT system that responsible for representation of the data received from the server to the end user. Using this component the user can see the current state of the system (data from the sensor board, data from accelerometer, video stream etc.) and log of the events that occurred earlier:
+The IoT UI is the part of the IoT system that responsible for representation of the data received from the server to the end user. Using this component the user can see the current state of the system (data from the sensor board, data from accelerometer, video stream etc.) and log of the events that occurred earlier.
 
-*screen*
 ## Installation
 + Clone the source code to the any place on your PC and go to the folder:
 
@@ -34,4 +33,6 @@ Or, to build and run production version of the web-interface run the command:
     ```
     gulp dist
     ```
-+ The browser will automatically open the web interface page when the build procedure will completed.
++ The browser will automatically open the web interface page when the build procedure will completed:
+
+*Screenshot*
