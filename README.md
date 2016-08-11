@@ -10,7 +10,7 @@ While working the IoT system saves all images made by RaspiCam on the server. If
 + Make sure that the "imagecleaner" branch is active:
 
     ```
-    git checkout atm-ui && git status
+    git checkout imagecleaner && git status
     ```
 You should see something like this in the output:
 
