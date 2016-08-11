@@ -26,7 +26,7 @@ You should see something like this in the output:
     ```
     "dir": "<Path to the folder with saved images>",
     "interval": <Time interval>,
-    "serverIP": "<IP address of the server on which images was stored>",
+    "serverIP": "<IP address of the server>",
     "serverPort": <Server port (8060 by the default)>
     ```
 + Start the ImageCleaner server:
