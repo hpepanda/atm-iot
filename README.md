@@ -14,7 +14,7 @@ The Image Processing Server responsible for saving images received from Raspberr
     ```
 You should see something like this in the output:
 
-  ![git status results](https://monosnap.com/file/wmXikpMN5F7Q83BG2Hbn438HtcTPv4.png)
+  ![git status results](https://cloud.githubusercontent.com/assets/20835203/17596563/b6064f34-5ffa-11e6-8f76-3a9574217b68.png)
 
 + Install all the necessary components and dependencies:
 
