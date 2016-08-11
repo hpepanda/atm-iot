@@ -15,7 +15,7 @@ The IoT UI is the part of the IoT system that responsible for representation of 
     ```
 You should see something like this in the output:
 
-![git status results](https://monosnap.com/file/wmXikpMN5F7Q83BG2Hbn438HtcTPv4.png)
+   ![git status results](https://monosnap.com/file/wmXikpMN5F7Q83BG2Hbn438HtcTPv4.png)
 
 + Install all the necessary components and dependencies:
 
