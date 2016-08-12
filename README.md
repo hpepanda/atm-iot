@@ -31,7 +31,7 @@ You should see something like this in the output:
     "streamUri": "ws://<IP address of the Raspberry Pi>:8084/",
     "imagePath": "<The name of the saved image and path where it will be saved>"
     ```
-5. Start the ImageCleaner server:
+5. Start the ImageProcessing server:
 
     ```
     npm start
