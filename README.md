@@ -14,7 +14,7 @@ The Image Processing Server responsible for saving images received from Raspberr
     ```
 You should see something like this in the output:
 
-  ![git status results](https://cloud.githubusercontent.com/assets/20835203/17596563/b6064f34-5ffa-11e6-8f76-3a9574217b68.png)
+  ![Git status results](https://cloud.githubusercontent.com/assets/20835203/17596563/b6064f34-5ffa-11e6-8f76-3a9574217b68.png)
 
 + Install all the necessary components and dependencies:
 
@@ -29,7 +29,7 @@ You should see something like this in the output:
     "accusticPort": <Port that uses the accustic sensor (8084 by the default)>,
     "raspicamPort": <Port that uses the RaspiCam (8085 by the default)>,
     "streamUri": "ws://<IP address of the Raspberry Pi>:8084/",
-    "imagePath": "<The name of the saved image and path where it will be saved>",
+    "imagePath": "<The name of the saved image and path where it will be saved>"
     ```
 5. Start the ImageCleaner server:
 
