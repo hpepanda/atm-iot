@@ -21,7 +21,7 @@ You should see something like this in the output:
     ```
     npm install
     ```
-+ Open the "package.json" file to edit application settings. The most interesting are the following lines:
++ Open the "settings.json" file to edit application settings. The most interesting are the following lines:
 
     ```
     "serverIP": "<IP address of the server>",
