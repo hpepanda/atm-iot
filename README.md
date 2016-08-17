@@ -14,15 +14,13 @@ The software needed for building of IoT server can be found in this repository. 
     ```
     git checkout <server_name>
     ```
+
 For your convenience, all the software which can be found in the current repository listed in the table below:
-
-
 
 Server Name|Branch Name|Description
 -----------|-----------|-----------
 User Interface|atm-ui|The component that responsible for representation of data from all servers to the end user
 Image Cleaner Server|imagecleaner|The component that deletes old unused images, saved on the hard disk while working of the system
-Data Processing Server|is.data-processing|Bunch of server-side applications which are responsible for saving (to MongoDB) and processing of data that received from sensors
-Sonic Sensors Server|is.sonic-densors|-
+Data Processing Server|dataprocessing|Bunch of server-side applications which are responsible for saving (to MongoDB) and processing of data that received from sensors
 Image Processing Server|serverimageprocessing|The service that detects if there are people on the received image and if so then counts them
-Video Stream Server|videostreamserver|-
+Video Stream Server|videostreamserver|The server that used for saving of video stream, received from Raspberry Pi to the special object data storage
