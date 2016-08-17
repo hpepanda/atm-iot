@@ -21,7 +21,7 @@ You should see something like this in the output:
     ```
     npm install
     ```
-+ Open the package.json file to edit application settings. The most interesting are the following lines:
++ Open the "package.json" file to edit application settings. The most interesting are the following lines:
 
     ```
     "dir": "<Path to the folder with saved images>",
@@ -29,7 +29,7 @@ You should see something like this in the output:
     "serverIP": "<IP address of the server>",
     "serverPort": <Server port (8060 by the default)>
     ```
-+ Start the ImageCleaner server:
++ Start the "ImageCleaner" server:
 
     ```
     npm start
