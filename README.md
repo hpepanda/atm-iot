@@ -14,7 +14,7 @@ The ImageProcessing server responsible for saving images received from Raspberry
     ```
 You should see something like this in the output:
 
-  ![Git status results](https://cloud.githubusercontent.com/assets/20835203/17596563/b6064f34-5ffa-11e6-8f76-3a9574217b68.png)
+  ![Git status results](https://cloud.githubusercontent.com/assets/20835203/17737700/e981bae2-6496-11e6-9590-a337d949f019.png)
 
 + Install all the necessary components and dependencies:
 
@@ -31,7 +31,7 @@ You should see something like this in the output:
     "streamUri": "ws://<IP address of the Raspberry Pi>:8084/",
     "imagePath": "<The name of the saved image and path where it will be saved>"
     ```
-5. Start the "ImageProcessing" server:
++ Start the "ImageProcessing" server:
 
     ```
     npm start
