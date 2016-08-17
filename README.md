@@ -1,5 +1,5 @@
 # ATM IoT ImageProcessing
-The Image Processing Server responsible for saving images received from Raspberry Pi to the specific directory in the hard drive and for further processing of this images which consists in determining if there are people on the image and if yes then how many them present on the photo. Next, processed image with number of people on it sent to the next server.
+The ImageProcessing server responsible for saving images received from Raspberry Pi to the specific directory in the hard drive and for further processing of this images which consists in determining if there are people on the image and if yes then how many them present on the photo. Next, processed image with number of people on it will sent to the next server.
 
 ## Installation:
 + Clone the source code to the any place on your PC and go to the folder:
@@ -21,7 +21,7 @@ You should see something like this in the output:
     ```
     npm install
     ```
-+ Open the package.json file to edit application settings. The most interesting are the following lines:
++ Open the "package.json" file to edit application settings. The most interesting are the following lines:
 
     ```
     "serverIP": "<IP address of the server>",
@@ -31,7 +31,7 @@ You should see something like this in the output:
     "streamUri": "ws://<IP address of the Raspberry Pi>:8084/",
     "imagePath": "<The name of the saved image and path where it will be saved>"
     ```
-5. Start the ImageProcessing server:
+5. Start the "ImageProcessing" server:
 
     ```
     npm start
