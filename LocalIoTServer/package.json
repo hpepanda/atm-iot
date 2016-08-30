@@ -1,0 +1,25 @@
+{
+  "name": "atm-iot-server",
+  "version": "1.0.0",
+  "description": "provides data for the grommet ui",
+  "private": true,
+  "dependencies": {
+    "morgan": "^1.6.1",
+    "express": "^4.13.3",
+    "ws": "^0.8.0",
+    "moment": "^2.10.6",
+	"body-parser": "1.14.1",
+	"compression": "1.6.0",
+	"cookie-parser": "1.4.0",
+	"json-stringify-pretty-compact": "1.0.1",
+	"mongoose": "4.0.2"
+  },
+  "scripts": {
+    "prestart": "npm install",
+    "start": "node server.js"
+  },
+  "author": "hp-demo",
+  "engines": {
+    "node": "0.12.x"
+  }
+}

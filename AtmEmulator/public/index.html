@@ -1,0 +1,79 @@
+<button type="button" id="sendSensorsDataBtn" onclick="sendSensorsDataClick()" style="width: 20%; height: 60px;">Send sensors data</button>
+<button type="button" id="sendEmptyDataBtn" onclick="sendEmptyDataClick()" style="width: 20%; height: 60px;">Send empty data</button>
+<button type="button" id="stopBtn" onclick="stopBtnClick()" style="width: 20%; height: 60px;">Stop</button>
+<button type="button" id="demoBtn" onclick="startDemo()" style="width: 20%; height: 60px;">Start Demo</button>
+
+<p>Emulator log:</p>
+<div id="logGameContainer" border="1"></div>
+
+<br>
+<script src="./socket.io.js"></script>
+
+<script>
+  function syncRequest(action) {
+    var xhr = new XMLHttpRequest();
+    xhr.ontimeout = function () {
+      alert("timeout");
+    };
+    xhr.onload = function() {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+        } else {
+          alert("connection error \n" + xhr.statusText);
+        }
+      }
+    };
+    var url = window.location.href + action;
+    xhr.open("GET", url, true);
+    xhr.timeout = 20*1000;
+    xhr.send(null);
+  }
+
+  function sendSensorsDataClick() {
+    document.getElementById("sendSensorsDataBtn").disabled = true;
+    setTimeout(function (){
+      document.getElementById("sendSensorsDataBtn").disabled = false;
+    }, 3000);
+    syncRequest("startSensors");
+  }
+
+  function sendEmptyDataClick() {
+    document.getElementById("sendEmptyDataBtn").disabled = true;
+    setTimeout(function (){
+      document.getElementById("sendEmptyDataBtn").disabled = false;
+    }, 3000);
+    syncRequest("startEmpty");
+  }
+
+  function stopBtnClick() {
+    document.getElementById("stopBtn").disabled = true;
+    setTimeout(function (){
+      document.getElementById("stopBtn").disabled = false;
+    }, 3000);
+    syncRequest("stop");
+  }
+
+  function startDemo() {
+    document.getElementById("demoBtn").disabled = true;
+    setTimeout(function (){
+      document.getElementById("demoBtn").disabled = false;
+    }, 3000);
+    syncRequest("demo");
+  }
+
+
+
+  var socket = io(window.location.href);
+  socket.on('log_message', function (data) {
+    console.log(data);
+    var element = document.getElementById("logGameContainer");
+    element.innerHTML = data + "<br/>" + element.innerHTML.substring(0, 100000);
+  });
+
+  socket.on('clear', function (data) {
+    console.log(data);
+    var element = document.getElementById("logGameContainer");
+    element.innerHTML = "";
+  });
+
+</script>

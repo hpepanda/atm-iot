@@ -1,0 +1,11 @@
+applications:
+- name: atm-aggregation-server
+  mem: 128M
+  services:
+    atm-rabbitmq:
+      type: rabbitmq3
+    atm-mongo-db:
+      type: mongodb
+  stackato:
+    ignores:
+    - node_modules

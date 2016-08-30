@@ -1,0 +1,12 @@
+{
+  "config": "./config/config.js",
+  "keyValueAggregator": "./app/aggregators/keyValueAggregator.js",
+  "heartbeatAggregator": "./app/aggregators/heartbeatAggregator.js",
+  "usersAggregator": "./app/aggregators/usersAggregator.js",
+  "flaggingAggregator": "./app/aggregators/flaggingAggregator.js",
+  "clickAggregator": "./app/aggregators/clickAggregator.js",
+  "cartsAggregator": "./app/aggregators/cartsAggregator.js",
+  "atmAggregator": "./app/aggregators/atmAggregator.js",
+  "aggregationJob": "./app/aggregationJob.js",
+  "rabbitMq": "./app/components/rabbitMq.js"
+}

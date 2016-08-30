@@ -1,0 +1,9 @@
+applications:
+- name: atm-iot-server
+  mem: 128M
+  services:
+    atm-mongo-db:
+      type: mongodb
+  stackato:
+    ignores:
+    - node_modules

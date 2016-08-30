@@ -1,0 +1,27 @@
+{
+  "name": "atm-simulator",
+  "version": "1.0.0",
+  "description": "Atm simulator server",
+  "private": true,
+  "dependencies": {
+    "express": "^4.13.4",
+    "body-parser": "^1.12.4",
+    "morgan": "1.5.3",
+    "request": "^2.57.0",
+    "use-import": "^0.1.2",
+    "ip": "^0.3.3",
+    "superagent": "^1.8.2",
+    "request": "2.58.x",
+    "bluebird": "3.4.0",
+    "socket.io": "^1.4.5",
+    "moment": "^2.14.1"
+  },
+  "scripts": {
+    "prestart": "npm install",
+    "start": "node server.js"
+  },
+  "author": "yoctocode",
+  "engines": {
+    "node": "6.4.x"
+  }
+}

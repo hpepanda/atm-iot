@@ -1,0 +1,12 @@
+{
+  "config": "./config/config.js",
+
+  "analyticsController": "./app/controllers/analyticsController.js",
+  "heartbeatController": "./app/controllers/heartbeatController.js",
+  "flaggingController": "./app/controllers/flaggingController.js",
+  "reportsController": "./app/controllers/reportsController.js",
+
+  "cors": "./app/components/cors.js",
+  "serverIp": "./app/components/serverIp.js",
+  "rabbitMq": "./app/components/rabbitMq.js"
+}

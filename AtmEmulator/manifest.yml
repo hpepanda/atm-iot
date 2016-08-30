@@ -1,0 +1,9 @@
+applications:
+- name: atm-simulator
+  mem: 128M
+  stackato:
+    ignores:
+    - node_modules
+  env:
+    BINARY_SERVER_URI: "http://localhost:8086/analytics",
+    VIDEO_SERVER_URI: "http://localhost:5000"

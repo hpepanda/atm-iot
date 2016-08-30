@@ -1,0 +1,5 @@
+{
+  "config": "./config/config.js",
+  "atmSimulatorController": "./app/controllers/atmSimulatorController.js",
+  "cors": "./app/components/cors.js"
+}
